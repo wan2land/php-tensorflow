@@ -16,8 +16,8 @@
 
 // list of custom PHP functions provided by this extension
 // set {NULL, NULL, NULL} as the last record to mark the end of list
-static zend_function_entry tensorflow_versions[] = {
-    PHP_FE(tensorflow_version, NULL)
+static zend_function_entry tensorflow_extensions[] = {
+    // PHP_FE(tensorflow_version, NULL)
     {NULL, NULL, NULL}
 };
 
@@ -27,12 +27,12 @@ zend_module_entry tensorflow_module_entry = {
     STANDARD_MODULE_HEADER,
 #endif
     PHP_TENSORFLOW_EXTNAME,
-    tensorflow_versions,
-    NULL, // name of the MINIT function or NULL if not applicable
+    tensorflow_extensions,
+    PHP_MINIT(tensorflow),
     NULL, // name of the MSHUTDOWN function or NULL if not applicable
     NULL, // name of the RINIT function or NULL if not applicable
     NULL, // name of the RSHUTDOWN function or NULL if not applicable
-    NULL, // name of the MINFO function or NULL if not applicable
+    PHP_MINFO(tensorflow),
 #if ZEND_MODULE_API_NO >= 20010901
     PHP_TENSORFLOW_VERSION,
 #endif
@@ -41,7 +41,29 @@ zend_module_entry tensorflow_module_entry = {
 
 ZEND_GET_MODULE(tensorflow)
 
-PHP_FUNCTION(tensorflow_version)
+PHP_MINIT_FUNCTION(tensorflow)
 {
-    RETURN_STRING(TF_Version());
+    REGISTER_NS_STRING_CONSTANT("Tensorflow", "VERSION", (char *)TF_Version(), CONST_PERSISTENT | CONST_CS);
+
+    return SUCCESS;
 }
+
+PHP_MINFO_FUNCTION(tensorflow)
+{
+    php_info_print_table_start();
+    php_info_print_table_row(2, "Tensorflow Support", "enabled");
+    php_info_print_table_row(2, "Tensorflow Module Version", PHP_TENSORFLOW_VERSION);
+    php_info_print_table_end();
+
+    php_info_print_table_start();
+    php_info_print_table_header(3, "Version Info", "Compiled", "Linked");
+    php_info_print_table_row(3, "Tensorflow Library", PHP_TENSORFLOW_VERSION_STRING, TF_Version());
+    php_info_print_table_end();
+
+    DISPLAY_INI_ENTRIES();
+}
+
+// PHP_FUNCTION(tensorflow_version)
+// {
+//     RETURN_STRING(TF_Version());
+// }
