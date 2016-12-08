@@ -1,6 +1,8 @@
 
 #include "php_tensorflow.h"
 
+#include "class/tf_dtype.h"
+
 #include "class/tf_status.h"
 #include "class/tf_buffer.h"
 
@@ -48,73 +50,14 @@ static PHP_MINIT_FUNCTION(tensorflow)
 {
     REGISTER_NS_STRING_CONSTANT("Tensorflow", "VERSION", (char *)TF_Version(), CONST_PERSISTENT | CONST_CS);
 
+    define_tf_dtype_class();
+
     define_tf_status_class();
     define_tf_buffer_class();
 
     return SUCCESS;
 }
 
-// // --------------------------------------------------------------------------
-// // TF_Tensor holds a multi-dimensional array of elements of a single data type.
-// // For all types other than TF_STRING, the data buffer stores elements
-// // in row major order.  E.g. if data is treated as a vector of TF_DataType:
-// //
-// //   element 0:   index (0, ..., 0)
-// //   element 1:   index (0, ..., 1)
-// //   ...
-// //
-// // The format for TF_STRING tensors is:
-// //   start_offset: array[uint64]
-// //   data:         byte[...]
-// //
-// //   The string length (as a varint), followed by the contents of the string
-// //   is encoded at data[start_offset[i]]]. TF_StringEncode and TF_StringDecode
-// //   facilitate this encoding.
-
-// typedef struct TF_Tensor TF_Tensor;
-
-// // Return a new tensor that holds the bytes data[0,len-1].
-// //
-// // The data will be deallocated by a subsequent call to TF_DeleteTensor via:
-// //      (*deallocator)(data, len, deallocator_arg)
-// // Clients must provide a custom deallocator function so they can pass in
-// // memory managed by something like numpy.
-// extern TF_Tensor* TF_NewTensor(TF_DataType, const int64_t* dims, int num_dims,
-//                                void* data, size_t len,
-//                                void (*deallocator)(void* data, size_t len,
-//                                                    void* arg),
-//                                void* deallocator_arg);
-
-// // Allocate and return a new Tensor.
-// //
-// // This function is an alternative to TF_NewTensor and should be used when
-// // memory is allocated to pass the Tensor to the C API. The allocated memory
-// // satisfies TensorFlow's memory alignment preferences and should be preferred
-// // over calling malloc and free.
-// //
-// // The caller must set the Tensor values by writing them to the pointer returned
-// // by TF_TensorData with length TF_TensorByteSize.
-// extern TF_Tensor* TF_AllocateTensor(TF_DataType, const int64_t* dims,
-//                                     int num_dims, size_t len);
-
-// // Destroy a tensor.
-// extern void TF_DeleteTensor(TF_Tensor*);
-
-// // Return the type of a tensor element.
-// extern TF_DataType TF_TensorType(const TF_Tensor*);
-
-// // Return the number of dimensions that the tensor has.
-// extern int TF_NumDims(const TF_Tensor*);
-
-// // Return the length of the tensor in the "dim_index" dimension.
-// // REQUIRES: 0 <= dim_index < TF_NumDims(tensor)
-// extern int64_t TF_Dim(const TF_Tensor* tensor, int dim_index);
-
-// // Return the size of the underlying data in bytes.
-// extern size_t TF_TensorByteSize(const TF_Tensor*);
-
-// // Return a pointer to the underlying data buffer.
-// extern void* TF_TensorData(const TF_Tensor*);
 
 // // --------------------------------------------------------------------------
 // // Encode the string `src` (`src_len` bytes long) into `dst` in the format
