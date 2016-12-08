@@ -24,10 +24,10 @@ ZEND_END_ARG_INFO()
 
 // methods
 static zend_function_entry tf_status_methods[] = {
-    PHP_ME(Tensorflow_Status, __construct, NULL,                      ZEND_ACC_PUBLIC)
-    PHP_ME(Tensorflow_Status, setCode,     arginfo_tf_status_setCode, ZEND_ACC_PUBLIC)
-    PHP_ME(Tensorflow_Status, getCode,     NULL,                      ZEND_ACC_PUBLIC)
-    PHP_ME(Tensorflow_Status, getMessage,  NULL,                      ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Status, __construct, NULL,                      ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Status, setCode,     arginfo_tf_status_setCode, ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Status, getCode,     NULL,                      ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Status, getMessage,  NULL,                      ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 
@@ -35,7 +35,7 @@ void define_tf_status_class()
 {
     zend_class_entry temp_ce;
 
-    INIT_NS_CLASS_ENTRY(temp_ce, "Tensorflow", "Status", tf_status_methods);
+    INIT_NS_CLASS_ENTRY(temp_ce, "TensorFlow", "Status", tf_status_methods);
 
     ce_TF_Status = zend_register_internal_class(&temp_ce);
     ce_TF_Status->create_object = tf_status_object_create;
@@ -115,7 +115,7 @@ static void tf_status_dtor(t_tf_status* tf_status TSRMLS_DC)
     }
 }
 
-static PHP_METHOD(Tensorflow_Status, __construct)
+static PHP_METHOD(TensorFlow_Status, __construct)
 {
     // this
     t_tf_status_object* intern;
@@ -127,7 +127,7 @@ static PHP_METHOD(Tensorflow_Status, __construct)
 }
 
 // void TF_SetStatus(TF_Status* s, TF_Code code, const char* message);
-static PHP_METHOD(Tensorflow_Status, setCode)
+static PHP_METHOD(TensorFlow_Status, setCode)
 {
     // arguments
     int code;
@@ -160,7 +160,7 @@ static PHP_METHOD(Tensorflow_Status, setCode)
 }
 
 // extern TF_Code TF_GetCode(const TF_Status* s);
-static PHP_METHOD(Tensorflow_Status, getCode)
+static PHP_METHOD(TensorFlow_Status, getCode)
 {
     if (ZEND_NUM_ARGS() != 0) {
         WRONG_PARAM_COUNT;
@@ -180,7 +180,7 @@ static PHP_METHOD(Tensorflow_Status, getCode)
 
 
 // extern const char* TF_Message(const TF_Status* s);
-static PHP_METHOD(Tensorflow_Status, getMessage)
+static PHP_METHOD(TensorFlow_Status, getMessage)
 {
     if (ZEND_NUM_ARGS() != 0) {
         WRONG_PARAM_COUNT;

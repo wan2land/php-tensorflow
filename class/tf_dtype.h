@@ -23,8 +23,8 @@ typedef struct _t_tf_dtype_object {
     t_tf_dtype* ptr;
 } t_tf_dtype_object;
 
-static PHP_METHOD(Tensorflow_Dtype, __construct);
-static PHP_METHOD(Tensorflow_Dtype, __toString);
+static PHP_METHOD(TensorFlow_Dtype, __construct);
+static PHP_METHOD(TensorFlow_Dtype, __toString);
 
 void define_tf_dtype_class();
 

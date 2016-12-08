@@ -1,10 +1,10 @@
 --TEST--
-Tensorflow\Buffer::__construct method
+TensorFlow\Buffer::__construct method
 --FILE--
 <?php
-$buffer = new Tensorflow\Buffer();
+$buffer = new TensorFlow\Buffer();
 echo ($buffer->__toString() ?: "(null)"), "\n";
-$buffer = new Tensorflow\Buffer("hello tf!!");
+$buffer = new TensorFlow\Buffer("hello tf!!");
 echo ($buffer->__toString() ?: "(null)"), "\n";
 
 ?>

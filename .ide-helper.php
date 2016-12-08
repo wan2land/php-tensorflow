@@ -1,6 +1,6 @@
 <?php
 
-namespace Tensorflow
+namespace TensorFlow
 {
     const VERSION = null;
 

@@ -1,5 +1,5 @@
-#ifndef PHP_TENSORFLOW_STATUS_H
-#define PHP_TENSORFLOW_STATUS_H
+#ifndef PHP_TENSORFLOW_BUFFER_H
+#define PHP_TENSORFLOW_BUFFER_H
 
 #include <php.h>
 #include <php_ini.h>
@@ -22,9 +22,9 @@ typedef struct _t_tf_buffer_object {
 	t_tf_buffer* ptr;
 } t_tf_buffer_object;
 
-static PHP_METHOD(Tensorflow_Buffer, __construct);
-static PHP_METHOD(Tensorflow_Buffer, __toString);
+static PHP_METHOD(TensorFlow_Buffer, __construct);
+static PHP_METHOD(TensorFlow_Buffer, __toString);
 
 void define_tf_buffer_class();
 
-#endif	/* PHP_TENSORFLOW_STATUS_H */
+#endif	/* PHP_TENSORFLOW_BUFFER_H */

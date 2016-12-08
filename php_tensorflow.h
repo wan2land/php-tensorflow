@@ -28,7 +28,7 @@ extern zend_module_entry tensorflow_module_entry;
 #define PHP_TENSORFLOW_VERSION_STRING "unknown"
 #endif
 
-#define TENSORFLOW_NS "Tensorflow"
+#define TENSORFLOW_NS "TensorFlow"
 
 #define STRLEN(s) (sizeof(s)/sizeof(s[0]))
 

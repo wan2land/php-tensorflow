@@ -23,8 +23,8 @@ ZEND_END_ARG_INFO()
 
 // methods
 static zend_function_entry tf_buffer_methods[] = {
-    PHP_ME(Tensorflow_Buffer, __construct, arginfo_tf_buffer___construct, ZEND_ACC_PUBLIC)
-    PHP_ME(Tensorflow_Buffer, __toString,  NULL,                          ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Buffer, __construct, arginfo_tf_buffer___construct, ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Buffer, __toString,  NULL,                          ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 
@@ -32,7 +32,7 @@ void define_tf_buffer_class()
 {
     zend_class_entry temp_ce;
 
-    INIT_NS_CLASS_ENTRY(temp_ce, "Tensorflow", "Buffer", tf_buffer_methods);
+    INIT_NS_CLASS_ENTRY(temp_ce, "TensorFlow", "Buffer", tf_buffer_methods);
 
     ce_TF_Buffer = zend_register_internal_class(&temp_ce);
     ce_TF_Buffer->create_object = tf_buffer_object_create;
@@ -95,7 +95,7 @@ static void tf_buffer_dtor(t_tf_buffer* tf_buffer TSRMLS_DC)
 
 // extern TF_Buffer* TF_NewBufferFromString(const void* proto, size_t proto_len);
 // extern TF_Buffer* TF_NewBuffer();
-static PHP_METHOD(Tensorflow_Buffer, __construct)
+static PHP_METHOD(TensorFlow_Buffer, __construct)
 {
     // arguments
     zend_string* buffer;
@@ -119,7 +119,7 @@ static PHP_METHOD(Tensorflow_Buffer, __construct)
     }
 }
 
-static PHP_METHOD(Tensorflow_Buffer, __toString)
+static PHP_METHOD(TensorFlow_Buffer, __toString)
 {
     zend_string* result;
 

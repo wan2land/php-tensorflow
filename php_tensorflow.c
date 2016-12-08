@@ -34,13 +34,13 @@ ZEND_GET_MODULE(tensorflow)
 static PHP_MINFO_FUNCTION(tensorflow)
 {
     php_info_print_table_start();
-    php_info_print_table_row(2, "Tensorflow Support", "enabled");
-    php_info_print_table_row(2, "Tensorflow Module Version", PHP_TENSORFLOW_VERSION);
+    php_info_print_table_row(2, "TensorFlow Support", "enabled");
+    php_info_print_table_row(2, "TensorFlow Module Version", PHP_TENSORFLOW_VERSION);
     php_info_print_table_end();
 
     php_info_print_table_start();
     php_info_print_table_header(3, "Version Info", "Compiled", "Linked");
-    php_info_print_table_row(3, "Tensorflow Library", PHP_TENSORFLOW_VERSION_STRING, TF_Version());
+    php_info_print_table_row(3, "TensorFlow Library", PHP_TENSORFLOW_VERSION_STRING, TF_Version());
     php_info_print_table_end();
 
     DISPLAY_INI_ENTRIES();
@@ -48,7 +48,7 @@ static PHP_MINFO_FUNCTION(tensorflow)
 
 static PHP_MINIT_FUNCTION(tensorflow)
 {
-    REGISTER_NS_STRING_CONSTANT("Tensorflow", "VERSION", (char *)TF_Version(), CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_STRING_CONSTANT("TensorFlow", "VERSION", (char *)TF_Version(), CONST_PERSISTENT | CONST_CS);
 
     define_tf_dtype_class();
 

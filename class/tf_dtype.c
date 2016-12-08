@@ -23,8 +23,8 @@ ZEND_END_ARG_INFO()
 
 // methods
 static zend_function_entry tf_dtype_methods[] = {
-    PHP_ME(Tensorflow_Dtype, __construct, arginfo_tf_dtype___construct, ZEND_ACC_PUBLIC)
-    PHP_ME(Tensorflow_Dtype, __toString,  NULL,                         ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Dtype, __construct, arginfo_tf_dtype___construct, ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Dtype, __toString,  NULL,                         ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 
@@ -32,7 +32,7 @@ void define_tf_dtype_class()
 {
     zend_class_entry temp_ce;
 
-    INIT_NS_CLASS_ENTRY(temp_ce, "Tensorflow", "Dtype", tf_dtype_methods);
+    INIT_NS_CLASS_ENTRY(temp_ce, "TensorFlow", "Dtype", tf_dtype_methods);
 
     ce_TF_Dtype = zend_register_internal_class(&temp_ce);
     ce_TF_Dtype->create_object = tf_dtype_object_create;
@@ -115,7 +115,7 @@ static void tf_dtype_dtor(t_tf_dtype* tf_dtype TSRMLS_DC)
     }
 }
 
-static PHP_METHOD(Tensorflow_Dtype, __construct)
+static PHP_METHOD(TensorFlow_Dtype, __construct)
 {
     // arguments
     zend_long type;
@@ -138,7 +138,7 @@ static PHP_METHOD(Tensorflow_Dtype, __construct)
     php_tf_dtype->type = type;
 }
 
-static PHP_METHOD(Tensorflow_Dtype, __toString)
+static PHP_METHOD(TensorFlow_Dtype, __toString)
 {
     zend_string* result;
 

@@ -1,5 +1,5 @@
-PHP Tensorflow
-==============
+TensorFlow PHP Extension
+========================
 
 use `tensorflow` `0.12.0-rc0` c api.
 
@@ -23,7 +23,7 @@ use `tensorflow` `0.12.0-rc0` c api.
 
 ## Installation
 
-1. Download and Build the Tensorflow by Git Submodule.
+1. Download and Build the TensorFlow by Git Submodule.
 
    ```sh
    git submodule update --init --recursive

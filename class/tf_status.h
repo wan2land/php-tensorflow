@@ -22,10 +22,10 @@ typedef struct _t_tf_status_object {
 	t_tf_status* ptr;
 } t_tf_status_object;
 
-static PHP_METHOD(Tensorflow_Status, __construct);
-static PHP_METHOD(Tensorflow_Status, setCode);
-static PHP_METHOD(Tensorflow_Status, getCode);
-static PHP_METHOD(Tensorflow_Status, getMessage);
+static PHP_METHOD(TensorFlow_Status, __construct);
+static PHP_METHOD(TensorFlow_Status, setCode);
+static PHP_METHOD(TensorFlow_Status, getCode);
+static PHP_METHOD(TensorFlow_Status, getMessage);
 
 void define_tf_status_class();
 
