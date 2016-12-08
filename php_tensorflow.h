@@ -38,7 +38,7 @@ typedef struct _php_tf_status_object {
 static PHP_MINFO_FUNCTION(tensorflow);
 static PHP_MINIT_FUNCTION(tensorflow);
 
-static PHP_METHOD(Tensorflow_Status, set);
+static PHP_METHOD(Tensorflow_Status, setCode);
 static PHP_METHOD(Tensorflow_Status, getCode);
 static PHP_METHOD(Tensorflow_Status, getMessage);
 

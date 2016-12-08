@@ -1,5 +1,5 @@
 --TEST--
-Tensorflow\VERSION constants
+Tensorflow\VERSION constant
 --FILE--
 <?php
 echo Tensorflow\VERSION;

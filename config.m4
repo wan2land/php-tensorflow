@@ -1,4 +1,4 @@
-PHP_ARG_ENABLE(tensorflow, whether to enable tensorflow,
+PHP_ARG_ENABLE(tensorflow, whether to enable php-tensorflow,
 [  --enable-tensorflow     Enable php-tensorflow])
 
 dnl Check whether the extension is enabled at all
@@ -6,7 +6,7 @@ if test "$PHP_TENSORFLOW" = "yes"; then
 
   dnl Finally, tell the build system about the extension and what files are needed
 
-  AC_DEFINE(HAVE_TENSORFLOW, 1, [Whether you have phptensorflow])
+  AC_DEFINE(HAVE_TENSORFLOW, 1, [Whether you have php-tensorflow])
 
   PHP_ADD_INCLUDE(lib/tensorflow) # for c_api.h
 

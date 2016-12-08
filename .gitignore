@@ -1,4 +1,6 @@
 /.idea
+/tests/*
+!/tests/*.phpt
 
 autom4te.cache
 *.sw*
