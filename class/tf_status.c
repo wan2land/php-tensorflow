@@ -19,7 +19,7 @@ static inline php_tf_status_object* tf_status_object_fetch_object(zend_object *o
 // argument info
 ZEND_BEGIN_ARG_INFO_EX(arginfo_setCode, 0, 0, 1)
     ZEND_ARG_INFO(0, code)
-    ZEND_ARG_INFO(0, msg)
+    ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
 // methods
@@ -114,21 +114,22 @@ static void tf_status_dtor(php_tf_status* tf_status TSRMLS_DC)
     }
 }
 
-// void TF_SetStatus(TF_Status* s, TF_Code code, const char* msg);
+// void TF_SetStatus(TF_Status* s, TF_Code code, const char* message);
 static PHP_METHOD(Tensorflow_Status, setCode)
 {
     // arguments
     int code;
-    char* msg = NULL;
-    size_t msg_len;
-
-    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l|s", &code, &msg, &msg_len) == FAILURE) {
+    char* message = NULL;
+    size_t message_len;
+    if (zend_parse_parameters(ZEND_NUM_ARGS() TSRMLS_CC, "l|s", &code, &message, &message_len) == FAILURE) {
         RETURN_NULL();
         return;
     }
-
-    // php_printf("%d\n", code);
-    // php_printf("%s\n", msg);
+    // ZEND_PARSE_PARAMETERS_START(1, 2)
+    //     Z_PARAM_LONG(code)
+    //     Z_PARAM_OPTIONAL
+    //     Z_PARAM_STR(message)
+    // ZEND_PARSE_PARAMETERS_END();
 
     // this
     php_tf_status_object* intern;
@@ -139,8 +140,11 @@ static PHP_METHOD(Tensorflow_Status, setCode)
     xnode = intern->ptr;
     node = xnode->ptr;
 
-    // execute
-    TF_SetStatus(node, code, msg);
+    if (message == NULL) {
+        TF_SetStatus(node, code, "");
+    } else {
+        TF_SetStatus(node, code, message);
+    }
 }
 
 // extern TF_Code TF_GetCode(const TF_Status* s);

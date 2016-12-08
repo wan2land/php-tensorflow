@@ -1,10 +1,6 @@
-#ifdef HAVE_CONFIG_H
-#include "config.h"
-#endif
-
-#include "tensorflow/c/c_api.h" // use this only
 
 #include "php_tensorflow.h"
+
 #include "class/tf_status.h"
 
 // functions
