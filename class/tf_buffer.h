@@ -11,22 +11,20 @@
 
 #include "tensorflow/c/c_api.h" // use this only
 
-typedef struct _t_tf_status {
-	TF_Status* src;
+typedef struct _t_tf_buffer {
+	TF_Buffer* src;
 	zend_string* str;
 	int ref;
-} t_tf_status;
+} t_tf_buffer;
 
-typedef struct _t_tf_status_object {
+typedef struct _t_tf_buffer_object {
 	zend_object std;
-	t_tf_status* ptr;
-} t_tf_status_object;
+	t_tf_buffer* ptr;
+} t_tf_buffer_object;
 
-static PHP_METHOD(Tensorflow_Status, __construct);
-static PHP_METHOD(Tensorflow_Status, setCode);
-static PHP_METHOD(Tensorflow_Status, getCode);
-static PHP_METHOD(Tensorflow_Status, getMessage);
+static PHP_METHOD(Tensorflow_Buffer, __construct);
+static PHP_METHOD(Tensorflow_Buffer, __toString);
 
-void define_tf_status_class();
+void define_tf_buffer_class();
 
 #endif	/* PHP_TENSORFLOW_STATUS_H */

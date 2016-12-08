@@ -2,6 +2,7 @@
 #include "php_tensorflow.h"
 
 #include "class/tf_status.h"
+#include "class/tf_buffer.h"
 
 // functions
 static zend_function_entry tf_functions[] = {
@@ -48,34 +49,10 @@ static PHP_MINIT_FUNCTION(tensorflow)
     REGISTER_NS_STRING_CONSTANT("Tensorflow", "VERSION", (char *)TF_Version(), CONST_PERSISTENT | CONST_CS);
 
     define_tf_status_class();
+    define_tf_buffer_class();
 
     return SUCCESS;
 }
-
-// // --------------------------------------------------------------------------
-// // TF_Buffer holds a pointer to a block of data and its associated length.
-// // Typically, the data consists of a serialized protocol buffer, but other data
-// // may also be held in a buffer.
-// //
-// // By default, TF_Buffer itself does not do any memory management of the
-// // pointed-to block.  If need be, users of this struct should specify how to
-// // deallocate the block by setting the `data_deallocator` function pointer.
-// typedef struct {
-//   const void* data;
-//   size_t length;
-//   void (*data_deallocator)(void* data, size_t length);
-// } TF_Buffer;
-
-// // Makes a copy of the input and sets an appropriate deallocator.  Useful for
-// // passing in read-only, input protobufs.
-// extern TF_Buffer* TF_NewBufferFromString(const void* proto, size_t proto_len);
-
-// // Useful for passing *out* a protobuf.
-// extern TF_Buffer* TF_NewBuffer();
-
-// extern void TF_DeleteBuffer(TF_Buffer*);
-
-// extern TF_Buffer TF_GetBuffer(TF_Buffer* buffer);
 
 // // --------------------------------------------------------------------------
 // // TF_Tensor holds a multi-dimensional array of elements of a single data type.

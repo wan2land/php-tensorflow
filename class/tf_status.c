@@ -3,31 +3,32 @@
 
 zend_object* tf_status_object_create(zend_class_entry* ce TSRMLS_DC);
 static void tf_status_object_free(zend_object *object TSRMLS_DC);
-static php_tf_status* tf_status_ctor(TSRMLS_D);
-static void tf_status_dtor(php_tf_status* tf_status TSRMLS_DC);
+static t_tf_status* tf_status_ctor(TSRMLS_D);
+static void tf_status_dtor(t_tf_status* tf_status TSRMLS_DC);
 
 // class entries
 static zend_class_entry *ce_TF_Status = NULL;
 
 static zend_object_handlers oh_TF_Status;
 
-static inline php_tf_status_object* tf_status_object_fetch_object(zend_object *obj) {
-    return (php_tf_status_object*)((char *)obj - XtOffsetOf(php_tf_status_object, std));
+static inline t_tf_status_object* tf_status_object_fetch_object(zend_object *obj) {
+    return (t_tf_status_object*)((char *)obj - XtOffsetOf(t_tf_status_object, std));
 }
 #define TF_STATUS_OBJECT_P(zv) tf_status_object_fetch_object(Z_OBJ_P(zv))
 
 // argument info
-ZEND_BEGIN_ARG_INFO_EX(arginfo_setCode, 0, 0, 1)
+ZEND_BEGIN_ARG_INFO_EX(arginfo_tf_status_setCode, 0, 0, 1)
     ZEND_ARG_INFO(0, code)
     ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
 // methods
 static zend_function_entry tf_status_methods[] = {
-    PHP_ME(Tensorflow_Status, setCode,      arginfo_setCode,    ZEND_ACC_PUBLIC)
-    PHP_ME(Tensorflow_Status, getCode,      NULL,           ZEND_ACC_PUBLIC)
-    PHP_ME(Tensorflow_Status, getMessage,   NULL,           ZEND_ACC_PUBLIC)
-    {NULL, NULL, NULL}
+    PHP_ME(Tensorflow_Status, __construct, NULL,                      ZEND_ACC_PUBLIC)
+    PHP_ME(Tensorflow_Status, setCode,     arginfo_tf_status_setCode, ZEND_ACC_PUBLIC)
+    PHP_ME(Tensorflow_Status, getCode,     NULL,                      ZEND_ACC_PUBLIC)
+    PHP_ME(Tensorflow_Status, getMessage,  NULL,                      ZEND_ACC_PUBLIC)
+    PHP_FE_END
 };
 
 void define_tf_status_class()
@@ -62,14 +63,14 @@ void define_tf_status_class()
     memcpy(&oh_TF_Status, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
     oh_TF_Status.clone_obj = NULL;
     oh_TF_Status.free_obj = tf_status_object_free;
-    oh_TF_Status.offset = XtOffsetOf(php_tf_status_object, std);
+    oh_TF_Status.offset = XtOffsetOf(t_tf_status_object, std);
 }
 
 zend_object* tf_status_object_create(zend_class_entry *ce TSRMLS_DC)
 {
-    php_tf_status_object *intern;
+    t_tf_status_object *intern;
 
-    intern = (php_tf_status_object *)ecalloc(1, sizeof(php_tf_status_object));
+    intern = (t_tf_status_object *)ecalloc(1, sizeof(t_tf_status_object));
     intern->ptr = tf_status_ctor(TSRMLS_C);
 
     zend_object_std_init(&intern->std, ce TSRMLS_CC);
@@ -82,36 +83,47 @@ zend_object* tf_status_object_create(zend_class_entry *ce TSRMLS_DC)
 
 static void tf_status_object_free(zend_object *object TSRMLS_DC)
 {
-    php_tf_status_object *intern = tf_status_object_fetch_object(object);
+    t_tf_status_object *intern = tf_status_object_fetch_object(object);
     tf_status_dtor(intern->ptr TSRMLS_CC);
     zend_object_std_dtor(&intern->std TSRMLS_CC);
 }
 
-static php_tf_status* tf_status_ctor(TSRMLS_D)
+static t_tf_status* tf_status_ctor(TSRMLS_D)
 {
-    php_tf_status *tf_status = NULL;
-    tf_status = (php_tf_status *)ecalloc(1, sizeof(php_tf_status));
-    if (tf_status == NULL) {
+    t_tf_status *php_tf_status = NULL;
+    php_tf_status = (t_tf_status *)ecalloc(1, sizeof(t_tf_status));
+    if (php_tf_status == NULL) {
         return NULL;
     }
 
-    tf_status->ptr = TF_NewStatus();
-    tf_status->str = NULL;
-    tf_status->ref = 1;
+    php_tf_status->src = TF_NewStatus();
+    php_tf_status->str = NULL;
+    php_tf_status->ref = 1;
 
-    return tf_status;
+    return php_tf_status;
 }
 
-static void tf_status_dtor(php_tf_status* tf_status TSRMLS_DC)
+static void tf_status_dtor(t_tf_status* tf_status TSRMLS_DC)
 {
     tf_status->ref--;
     if (tf_status->ref == 0) {
         if (tf_status->str != NULL) {
             zend_string_release(tf_status->str);
         }
-        TF_DeleteStatus(tf_status->ptr);
+        TF_DeleteStatus(tf_status->src);
         efree(tf_status);
     }
+}
+
+static PHP_METHOD(Tensorflow_Status, __construct)
+{
+    // this
+    t_tf_status_object* intern;
+    t_tf_status* php_tf_status;
+
+    intern = TF_STATUS_OBJECT_P(getThis());
+    php_tf_status = intern->ptr;
+    php_tf_status->src = TF_NewStatus();
 }
 
 // void TF_SetStatus(TF_Status* s, TF_Code code, const char* message);
@@ -132,18 +144,18 @@ static PHP_METHOD(Tensorflow_Status, setCode)
     // ZEND_PARSE_PARAMETERS_END();
 
     // this
-    php_tf_status_object* intern;
-    php_tf_status* xnode;
-    TF_Status* node;
+    t_tf_status_object* intern;
+    t_tf_status* php_tf_status;
+    TF_Status* tf_status;
 
     intern = TF_STATUS_OBJECT_P(getThis());
-    xnode = intern->ptr;
-    node = xnode->ptr;
+    php_tf_status = intern->ptr;
+    tf_status = php_tf_status->src;
 
     if (message == NULL) {
-        TF_SetStatus(node, code, "");
+        TF_SetStatus(tf_status, code, "");
     } else {
-        TF_SetStatus(node, code, message);
+        TF_SetStatus(tf_status, code, message);
     }
 }
 
@@ -155,15 +167,15 @@ static PHP_METHOD(Tensorflow_Status, getCode)
     }
 
     // this
-    php_tf_status_object* intern;
-    php_tf_status* xnode;
-    TF_Status* node;
+    t_tf_status_object* intern;
+    t_tf_status* php_tf_status;
+    TF_Status* tf_status;
 
     intern = TF_STATUS_OBJECT_P(getThis());
-    xnode = intern->ptr;
-    node = xnode->ptr;
+    php_tf_status = intern->ptr;
+    tf_status = php_tf_status->src;
 
-    RETURN_LONG(TF_GetCode(node));
+    RETURN_LONG(TF_GetCode(tf_status));
 }
 
 
@@ -175,13 +187,13 @@ static PHP_METHOD(Tensorflow_Status, getMessage)
     }
 
     // this
-    php_tf_status_object* intern;
-    php_tf_status* xnode;
-    TF_Status* node;
+    t_tf_status_object* intern;
+    t_tf_status* php_tf_status;
+    TF_Status* tf_status;
 
     intern = TF_STATUS_OBJECT_P(getThis());
-    xnode = intern->ptr;
-    node = xnode->ptr;
+    php_tf_status = intern->ptr;
+    tf_status = php_tf_status->src;
 
-    RETURN_STRING(TF_Message(node));
+    RETURN_STRING(TF_Message(tf_status));
 }
