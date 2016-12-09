@@ -28,3 +28,14 @@ static PHP_METHOD(TensorFlow_Buffer, __toString);
 void define_tf_buffer_class();
 
 #endif	/* PHP_TENSORFLOW_BUFFER_H */
+
+
+
+// // Get the OpList of all OpDefs defined in this address space.
+// // Returns a TF_Buffer, ownership of which is transferred to the caller
+// // (and can be freed using TF_DeleteBuffer).
+// //
+// // The data in the buffer will be the serialized OpList proto for ops registered
+// // in this address space.
+// extern TF_Buffer* TF_GetAllOpList();
+

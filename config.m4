@@ -12,7 +12,14 @@ if test "$PHP_TENSORFLOW" = "yes"; then
 
   PHP_ADD_LIBRARY(tensorflow, 1, TENSORFLOW_SHARED_LIBADD)
 
-  PHP_NEW_EXTENSION(tensorflow, php_tensorflow.c class/tf_status.c class/tf_buffer.c class/tf_dtype.c, $ext_shared)
+  PHP_NEW_EXTENSION(tensorflow,
+    php_tensorflow.c \
+    class/tf_status.c \
+    class/tf_buffer.c \
+    class/tf_dtype.c \
+    class/tf_tensor.c \
+    class/tf_session.c,
+    $ext_shared)
 
   PHP_SUBST(TENSORFLOW_SHARED_LIBADD)
 

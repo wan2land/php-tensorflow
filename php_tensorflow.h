@@ -15,12 +15,6 @@
 
 #include "tensorflow/c/c_api.h" // use this only
 
-
-extern zend_module_entry tensorflow_module_entry;
-
-
-#define phpext_tensorflow_ptr &tensorflow_module_entry
-
 #define PHP_TENSORFLOW_VERSION "0.0.1"
 #define PHP_TENSORFLOW_EXTNAME "tensorflow"
 
@@ -30,11 +24,9 @@ extern zend_module_entry tensorflow_module_entry;
 
 #define TENSORFLOW_NS "TensorFlow"
 
-#define STRLEN(s) (sizeof(s)/sizeof(s[0]))
-
-typedef TF_Code php_tf_code;
-
 static PHP_MINFO_FUNCTION(tensorflow);
 static PHP_MINIT_FUNCTION(tensorflow);
+
+extern zend_module_entry tensorflow_module_entry;
 
 #endif	/* PHP_TENSORFLOW_H */

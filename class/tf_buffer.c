@@ -14,7 +14,7 @@ static zend_object_handlers oh_TF_Buffer;
 static inline t_tf_buffer_object* tf_buffer_object_fetch_object(zend_object *obj) {
     return (t_tf_buffer_object*)((char *)obj - XtOffsetOf(t_tf_buffer_object, std));
 }
-#define TF_STATUS_OBJECT_P(zv) tf_buffer_object_fetch_object(Z_OBJ_P(zv))
+#define TF_BUFFER_OBJECT_P(zv) tf_buffer_object_fetch_object(Z_OBJ_P(zv))
 
 // argument info
 ZEND_BEGIN_ARG_INFO_EX(arginfo_tf_buffer___construct, 0, 0, 0)
@@ -73,7 +73,7 @@ static t_tf_buffer* tf_buffer_ctor(TSRMLS_D)
         return NULL;
     }
 
-    php_tf_buffer->src = TF_NewBuffer();
+    php_tf_buffer->src = NULL;
     php_tf_buffer->str = NULL;
     php_tf_buffer->ref = 1;
 
@@ -109,7 +109,7 @@ static PHP_METHOD(TensorFlow_Buffer, __construct)
     t_tf_buffer_object* intern;
     t_tf_buffer* php_tf_buffer;
 
-    intern = TF_STATUS_OBJECT_P(getThis());
+    intern = TF_BUFFER_OBJECT_P(getThis());
     php_tf_buffer = intern->ptr;
 
     if (ZEND_NUM_ARGS() == 1) {
@@ -128,7 +128,7 @@ static PHP_METHOD(TensorFlow_Buffer, __toString)
     t_tf_buffer* php_tf_buffer;
     TF_Buffer* tf_buffer;
 
-    intern = TF_STATUS_OBJECT_P(getThis());
+    intern = TF_BUFFER_OBJECT_P(getThis());
     php_tf_buffer = intern->ptr;
     tf_buffer = php_tf_buffer->src;
 

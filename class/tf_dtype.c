@@ -7,14 +7,52 @@ static t_tf_dtype* tf_dtype_ctor(TSRMLS_D);
 static void tf_dtype_dtor(t_tf_dtype* tf_dtype TSRMLS_DC);
 
 // class entries
-static zend_class_entry *ce_TF_Dtype = NULL;
+zend_class_entry *ce_TF_Dtype = NULL;
 
 static zend_object_handlers oh_TF_Dtype;
 
-static inline t_tf_dtype_object* tf_dtype_object_fetch_object(zend_object *obj) {
+t_tf_dtype_object* tf_dtype_object_fetch_object(zend_object *obj)
+{
     return (t_tf_dtype_object*)((char *)obj - XtOffsetOf(t_tf_dtype_object, std));
 }
-#define TF_STATUS_OBJECT_P(zv) tf_dtype_object_fetch_object(Z_OBJ_P(zv))
+
+/**
+ * @ref https://github.com/tensorflow/tensorflow/blob/287db3a9b0701021f302e7bb58af5cf89fdcd424/tensorflow/java/src/main/native/tensor_jni.cc
+ */
+size_t tf_dtype_sizeof(TF_DataType type)
+{
+    switch (type) {
+        case TF_INT8 :
+        case TF_UINT8 :
+        case TF_QINT8 :
+        case TF_QUINT8 :
+        case TF_BOOL :
+            return 1;
+        case TF_INT16 :
+        case TF_BFLOAT16 :
+        case TF_QINT16 :
+        case TF_QUINT16 :
+        case TF_UINT16 :
+            return 2;
+        case TF_FLOAT :
+        case TF_INT32 :
+        case TF_QINT32 :
+            return 4;
+        case TF_DOUBLE :
+        case TF_INT64 :
+        case TF_COMPLEX64 : // equal TF_COMPLEX
+            return 8;
+        case TF_COMPLEX128 :
+            return 16;
+        default:
+            break;
+        // @todo
+        // case TF_STRING : nbytes = uintptr(nflattened*8) + byteSizeOfEncodedStrings(value)
+        // case TF_HALF :
+        // case TF_RESOURCE :
+    }
+    return 0; // unknown;
+}
 
 // argument info
 ZEND_BEGIN_ARG_INFO_EX(arginfo_tf_dtype___construct, 0, 0, 1)
@@ -133,7 +171,7 @@ static PHP_METHOD(TensorFlow_Dtype, __construct)
     t_tf_dtype_object* intern;
     t_tf_dtype* php_tf_dtype;
 
-    intern = TF_STATUS_OBJECT_P(getThis());
+    intern = TF_DTYPE_OBJECT_P(getThis());
     php_tf_dtype = intern->ptr;
     php_tf_dtype->type = type;
 }
@@ -146,7 +184,7 @@ static PHP_METHOD(TensorFlow_Dtype, __toString)
     t_tf_dtype_object* intern;
     t_tf_dtype* php_tf_dtype;
 
-    intern = TF_STATUS_OBJECT_P(getThis());
+    intern = TF_DTYPE_OBJECT_P(getThis());
     php_tf_dtype = intern->ptr;
 
     RETURN_LONG(php_tf_dtype->type);
