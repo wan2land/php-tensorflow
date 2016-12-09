@@ -26,6 +26,7 @@
 
 static PHP_MINFO_FUNCTION(tensorflow);
 static PHP_MINIT_FUNCTION(tensorflow);
+static PHP_FUNCTION(debug);
 
 extern zend_module_entry tensorflow_module_entry;
 

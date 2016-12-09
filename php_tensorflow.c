@@ -8,7 +8,8 @@
 
 // functions
 static zend_function_entry tf_functions[] = {
-    {NULL, NULL, NULL}
+    ZEND_NS_FE("TensorFlow", debug, NULL)
+    ZEND_FE_END
 };
 
 // the following code creates an entry for the module and registers it with Zend.
@@ -54,10 +55,16 @@ static PHP_MINIT_FUNCTION(tensorflow)
     define_tf_status_class();
     define_tf_buffer_class();
     define_tf_tensor_class();
+    define_tf_graph_class();
+    define_tf_operation_description_class();
 
     return SUCCESS;
 }
 
+static PHP_FUNCTION(debug)
+{
+    RETURN_STRING("Hello World!");
+}
 
 // // --------------------------------------------------------------------------
 // // Encode the string `src` (`src_len` bytes long) into `dst` in the format

@@ -1,3 +1,39 @@
+#ifndef PHP_TENSORFLOW_SESSION_H
+#define PHP_TENSORFLOW_SESSION_H
+
+#include <php.h>
+#include <php_ini.h>
+#include <SAPI.h>
+#include <ext/standard/info.h>
+#include <Zend/zend_extensions.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
+#include <ext/spl/spl_exceptions.h>
+
+#include "tensorflow/c/c_api.h" // use this only
+
+typedef struct _t_tf_session {
+    TF_Session* src;
+    zend_string* str;
+    int ref;
+} t_tf_session;
+
+typedef struct _t_tf_session_object {
+    zend_object std;
+    t_tf_session* ptr;
+} t_tf_session_object;
+
+static PHP_METHOD(TensorFlow_Session __construct);
+// static PHP_METHOD(TensorFlow_Session getType);
+// static PHP_METHOD(TensorFlow_Session getDims);
+// static PHP_METHOD(TensorFlow_Session getByteSize);
+// static PHP_METHOD(TensorFlow_Session getData);
+
+void define_tf_session_class();
+
+#endif  /* PHP_TENSORFLOW_SESSION_H */
+
+
 // // --------------------------------------------------------------------------
 // // API for driving Graph execution.
 

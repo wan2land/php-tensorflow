@@ -10,6 +10,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "tensorflow/c/c_api.h" // use this only
+#include "class_abstract.h"
+
+#define TF_STATUS_P_ZO(zo) (t_tf_status_object*)((char *)(zo) - XtOffsetOf(t_tf_status_object, std))
+#define TF_STATUS_P_ZV(zv) TF_STATUS_P_ZO(Z_OBJ_P(zv))
+
+extern zend_class_entry *ce_TF_Status;
+extern zend_object_handlers oh_TF_Status;
 
 typedef struct _t_tf_status {
 	TF_Status* src;
@@ -22,11 +29,8 @@ typedef struct _t_tf_status_object {
 	t_tf_status* ptr;
 } t_tf_status_object;
 
-static PHP_METHOD(TensorFlow_Status, __construct);
-static PHP_METHOD(TensorFlow_Status, setCode);
-static PHP_METHOD(TensorFlow_Status, getCode);
-static PHP_METHOD(TensorFlow_Status, getMessage);
-
 void define_tf_status_class();
+
+t_tf_status_object* tf_status_object_fetch(zend_object *obj);
 
 #endif	/* PHP_TENSORFLOW_STATUS_H */
