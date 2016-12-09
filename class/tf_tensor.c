@@ -154,7 +154,7 @@ static PHP_METHOD(TensorFlow_Tensor, __construct)
                 }
                 // multi equal tf_len and insert tf_dims
                 tf_len *= tf_dims[index] = element->value.lval;
-                php_printf("%d \n", element->value.lval);
+                // php_printf("%d \n", element->value.lval);
                 zend_hash_move_forward_ex(dims_table, &pos);
 
                 index++;
