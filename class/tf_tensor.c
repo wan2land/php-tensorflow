@@ -34,7 +34,7 @@ static inline t_tf_tensor_object* tf_tensor_object_fetch_object(zend_object *obj
 
 // argument info
 ZEND_BEGIN_ARG_INFO_EX(arginfo_tf_tensor___construct, 0, 0, 1)
-    ZEND_ARG_OBJ_INFO(0, dtype, TensorFlow\\Dtype, 0)
+    ZEND_ARG_INFO(0, dtype)
     ZEND_ARG_ARRAY_INFO(0, dims, 1)
 ZEND_END_ARG_INFO()
 
@@ -46,68 +46,11 @@ static zend_function_entry tf_tensor_methods[] = {
 
 void define_tf_tensor_class()
 {
-    zend_class_entry temp_ce;
-
-    INIT_NS_CLASS_ENTRY(temp_ce, "TensorFlow", "Tensor", tf_tensor_methods);
-
-    ce_TF_Tensor = zend_register_internal_class(&temp_ce);
-    ce_TF_Tensor->create_object = tf_tensor_object_create;
-
-    memcpy(&oh_TF_Tensor, zend_get_std_object_handlers(), sizeof(zend_object_handlers));
-    oh_TF_Tensor.clone_obj = NULL;
-    oh_TF_Tensor.free_obj = tf_tensor_object_free;
-    oh_TF_Tensor.offset = XtOffsetOf(t_tf_tensor_object, std);
+    DEFINE_CLASS(Tensor, tensor, ce_TF_Tensor, oh_TF_Tensor)
 }
 
-zend_object* tf_tensor_object_create(zend_class_entry *ce TSRMLS_DC)
-{
-    t_tf_tensor_object *intern;
-
-    intern = (t_tf_tensor_object *)ecalloc(1, sizeof(t_tf_tensor_object));
-    intern->ptr = tf_tensor_ctor(TSRMLS_C);
-
-    zend_object_std_init(&intern->std, ce TSRMLS_CC);
-    object_properties_init(&intern->std, ce);
-
-    intern->std.handlers = &oh_TF_Tensor;
-
-    return &intern->std;
-}
-
-static void tf_tensor_object_free(zend_object *object TSRMLS_DC)
-{
-    t_tf_tensor_object *intern = tf_tensor_object_fetch_object(object);
-    tf_tensor_dtor(intern->ptr TSRMLS_CC);
-    zend_object_std_dtor(&intern->std TSRMLS_CC);
-}
-
-static t_tf_tensor* tf_tensor_ctor(TSRMLS_D)
-{
-    t_tf_tensor *php_tf_tensor = NULL;
-    php_tf_tensor = (t_tf_tensor *)ecalloc(1, sizeof(t_tf_tensor));
-    if (php_tf_tensor == NULL) {
-        return NULL;
-    }
-
-    php_tf_tensor->src = NULL;
-    php_tf_tensor->str = NULL;
-    php_tf_tensor->ref = 1;
-
-    return php_tf_tensor;
-}
-
-// extern void TF_DeleteTensor(TF_Tensor*);
-static void tf_tensor_dtor(t_tf_tensor* tf_tensor TSRMLS_DC)
-{
-    tf_tensor->ref--;
-    if (tf_tensor->ref == 0) {
-        if (tf_tensor->str != NULL) {
-            zend_string_release(tf_tensor->str);
-        }
-        TF_DeleteTensor(tf_tensor->src);
-        efree(tf_tensor);
-    }
-}
+CA_OBJECT_CREATE(tensor, t_tf_tensor, t_tf_tensor_object, oh_TF_Tensor)
+CA_OBJECT_FREE(tensor, t_tf_tensor, t_tf_tensor_object)
 
 // extern TF_Tensor* TF_NewTensor(TF_DataType, const int64_t* dims, int num_dims,
 //     void* data, size_t len,
@@ -115,17 +58,23 @@ static void tf_tensor_dtor(t_tf_tensor* tf_tensor TSRMLS_DC)
 // extern TF_Tensor* TF_AllocateTensor(TF_DataType, const int64_t* dims, int num_dims, size_t len);
 static PHP_METHOD(TensorFlow_Tensor, __construct)
 {
-    zval* dtype;
+    zend_long dtype;
     zval* dims;
 
     ZEND_PARSE_PARAMETERS_START(1, 2)
-        Z_PARAM_OBJECT_OF_CLASS_EX(dtype, ce_TF_Dtype, 0, 1) // last 1 is call by ref.
+        Z_PARAM_LONG(dtype)
         Z_PARAM_OPTIONAL
         Z_PARAM_ARRAY_EX(dims, 1, 0)
     ZEND_PARSE_PARAMETERS_END();
 
-    // for tf arguments
-    TF_DataType tf_dtype = TF_DTYPE_OBJECT_P(dtype)->ptr->type;
+    if (dtype < 1 || dtype > 20) {
+        zend_throw_exception(spl_ce_InvalidArgumentException, "dtype must be from 1 to 20", 0);
+        return;
+    }
+
+
+    TF_DataType tf_dtype = (TF_DataType) dtype;
+
     int64_t* tf_dims = NULL;
     int tf_num_dims = 0;
     size_t tf_len = 0;

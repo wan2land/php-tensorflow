@@ -5,6 +5,10 @@
 #include "class/tf_status.h"
 #include "class/tf_buffer.h"
 #include "class/tf_tensor.h"
+#include "class/tf_graph.h"
+#include "class/tf_operation_description.h"
+#include "class/tf_session_options.h"
+#include "class/tf_session.h"
 
 // functions
 static zend_function_entry tf_functions[] = {
@@ -51,12 +55,35 @@ static PHP_MINIT_FUNCTION(tensorflow)
 {
     REGISTER_NS_STRING_CONSTANT("TensorFlow", "VERSION", (char *)TF_Version(), CONST_PERSISTENT | CONST_CS);
 
-    define_tf_dtype_class();
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_FLOAT", 1, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_DOUBLE", 2, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_INT32", 3, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_UINT8", 4, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_INT16", 5, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_INT8", 6, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_STRING", 7, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_COMPLEX64", 8, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_COMPLEX", 8, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_INT64", 9, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_BOOL", 10, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_QINT8", 11, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_QUINT8", 12, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_QINT32", 13, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_BFLOAT16", 14, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_QINT16", 15, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_QUINT16", 16, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_UINT16", 17, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_COMPLEX128", 18, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_HALF", 19, CONST_PERSISTENT | CONST_CS);
+    REGISTER_NS_LONG_CONSTANT("TensorFlow", "DTYPE_RESOURCE", 20, CONST_PERSISTENT | CONST_CS);
+
     define_tf_status_class();
     define_tf_buffer_class();
     define_tf_tensor_class();
     define_tf_graph_class();
     define_tf_operation_description_class();
+    define_tf_session_options_class();
+    define_tf_session_class();
 
     return SUCCESS;
 }

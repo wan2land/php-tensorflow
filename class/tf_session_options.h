@@ -1,24 +1,34 @@
-// // --------------------------------------------------------------------------
-// // TF_SessionOptions holds options that can be passed during session creation.
-// typedef struct TF_SessionOptions TF_SessionOptions;
+#ifndef PHP_TENSORFLOW_SESSION_OPTIONS_H
+#define PHP_TENSORFLOW_SESSION_OPTIONS_H
 
-// // Return a new options object.
-// extern TF_SessionOptions* TF_NewSessionOptions();
+#include <php.h>
+#include <php_ini.h>
+#include <SAPI.h>
+#include <ext/standard/info.h>
+#include <Zend/zend_extensions.h>
+#include <Zend/zend_exceptions.h>
+#include <Zend/zend_interfaces.h>
 
-// // Set the target in TF_SessionOptions.options.
-// // target can be empty, a single entry, or a comma separated list of entries.
-// // Each entry is in one of the following formats :
-// // "local"
-// // ip:port
-// // host:port
-// extern void TF_SetTarget(TF_SessionOptions* options, const char* target);
+#include "tensorflow/c/c_api.h" // use this only
+#include "class_abstract.h"
 
-// // Set the config in TF_SessionOptions.options.
-// // config should be a serialized tensorflow.ConfigProto proto.
-// // If config was not parsed successfully as a ConfigProto, record the
-// // error information in *status.
-// extern void TF_SetConfig(TF_SessionOptions* options, const void* proto,
-//                          size_t proto_len, TF_Status* status);
+#define TF_SESSION_OPTIONS_P_ZO(zo) ((t_tf_session_options_object*)((char *)(zo) - XtOffsetOf(t_tf_session_options_object, std)))
+#define TF_SESSION_OPTIONS_P_ZV(zv) TF_SESSION_OPTIONS_P_ZO(Z_OBJ_P(zv))
 
-// // Destroy an options object.
-// extern void TF_DeleteSessionOptions(TF_SessionOptions*);
+extern zend_class_entry *ce_TF_SessionOptions;
+extern zend_object_handlers oh_TF_SessionOptions;
+
+typedef struct _t_tf_session_options {
+    TF_SessionOptions* src;
+    zend_string* str;
+    int ref;
+} t_tf_session_options;
+
+typedef struct _t_tf_session_options_object {
+    zend_object std;
+    t_tf_session_options* ptr;
+} t_tf_session_options_object;
+
+void define_tf_session_options_class();
+
+#endif  /* PHP_TENSORFLOW_SESSION_OPTIONS_H */

@@ -2,27 +2,27 @@
 TensorFlow\Dtype::* Constants
 --FILE--
 <?php
-echo TensorFlow\Dtype::FLOAT, "\n";
-echo TensorFlow\Dtype::DOUBLE, "\n";
-echo TensorFlow\Dtype::INT32, "\n";
-echo TensorFlow\Dtype::UINT8, "\n";
-echo TensorFlow\Dtype::INT16, "\n";
-echo TensorFlow\Dtype::INT8, "\n";
-echo TensorFlow\Dtype::STRING, "\n";
-echo TensorFlow\Dtype::COMPLEX64, "\n";
-echo TensorFlow\Dtype::COMPLEX, "\n";
-echo TensorFlow\Dtype::INT64, "\n";
-echo TensorFlow\Dtype::BOOL, "\n";
-echo TensorFlow\Dtype::QINT8, "\n";
-echo TensorFlow\Dtype::QUINT8, "\n";
-echo TensorFlow\Dtype::QINT32, "\n";
-echo TensorFlow\Dtype::BFLOAT16, "\n";
-echo TensorFlow\Dtype::QINT16, "\n";
-echo TensorFlow\Dtype::QUINT16, "\n";
-echo TensorFlow\Dtype::UINT16, "\n";
-echo TensorFlow\Dtype::COMPLEX128, "\n";
-echo TensorFlow\Dtype::HALF, "\n";
-echo TensorFlow\Dtype::RESOURCE, "\n";
+echo TensorFlow\DTYPE_FLOAT, "\n";
+echo TensorFlow\DTYPE_DOUBLE, "\n";
+echo TensorFlow\DTYPE_INT32, "\n";
+echo TensorFlow\DTYPE_UINT8, "\n";
+echo TensorFlow\DTYPE_INT16, "\n";
+echo TensorFlow\DTYPE_INT8, "\n";
+echo TensorFlow\DTYPE_STRING, "\n";
+echo TensorFlow\DTYPE_COMPLEX64, "\n";
+echo TensorFlow\DTYPE_COMPLEX, "\n";
+echo TensorFlow\DTYPE_INT64, "\n";
+echo TensorFlow\DTYPE_BOOL, "\n";
+echo TensorFlow\DTYPE_QINT8, "\n";
+echo TensorFlow\DTYPE_QUINT8, "\n";
+echo TensorFlow\DTYPE_QINT32, "\n";
+echo TensorFlow\DTYPE_BFLOAT16, "\n";
+echo TensorFlow\DTYPE_QINT16, "\n";
+echo TensorFlow\DTYPE_QUINT16, "\n";
+echo TensorFlow\DTYPE_UINT16, "\n";
+echo TensorFlow\DTYPE_COMPLEX128, "\n";
+echo TensorFlow\DTYPE_HALF, "\n";
+echo TensorFlow\DTYPE_RESOURCE, "\n";
 ?>
 --EXPECT--
 1

@@ -20,6 +20,7 @@ if test "$PHP_TENSORFLOW" = "yes"; then
     class/tf_tensor.c \
     class/tf_graph.c \
     class/tf_operation_description.c \
+    class/tf_session_options.c \
     class/tf_session.c,
     $ext_shared)
 

@@ -21,6 +21,7 @@ ZEND_BEGIN_ARG_INFO_EX(arginfo_tf_status_setCode, 0, 0, 1)
     ZEND_ARG_INFO(0, message)
 ZEND_END_ARG_INFO()
 
+
 // methods
 static zend_function_entry tf_status_methods[] = {
     PHP_ME(TensorFlow_Status, __construct, NULL,                      ZEND_ACC_PUBLIC)
