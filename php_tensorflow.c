@@ -90,6 +90,15 @@ static PHP_MINIT_FUNCTION(tensorflow)
 
 static PHP_FUNCTION(debug)
 {
+    // TF_Graph *graph = TF_NewGraph();
+
+    // // placeholder
+    // TF_OperationDescription* desc = TF_NewOperation(graph, "Placeholder", "feed");
+    // TF_SetAttrType(desc, "dtype", TF_INT32);
+    // TF_Operation *operation = TF_FinishOperation(desc, NULL); // second is status
+
+    
+
     RETURN_STRING("Hello World!");
 }
 

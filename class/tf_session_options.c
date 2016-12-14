@@ -65,19 +65,3 @@ static PHP_METHOD(TensorFlow_SessionOptions, setTarget)
 
     TF_SetTarget(node->src, target->val);
 }
-
-// // Return a new options object.
-
-// // Set the target in TF_SessionOptions.options.
-// // target can be empty, a single entry, or a comma separated list of entries.
-// // Each entry is in one of the following formats :
-// // "local"
-// // ip:port
-// // host:port
-
-// // Set the config in TF_SessionOptions.options.
-// // config should be a serialized tensorflow.ConfigProto proto.
-// // If config was not parsed successfully as a ConfigProto, record the
-// // error information in *status.
-// extern void TF_SetConfig(TF_SessionOptions* options, const void* proto,
-//                          size_t proto_len, TF_Status* status);

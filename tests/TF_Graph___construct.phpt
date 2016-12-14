@@ -1,5 +1,5 @@
 --TEST--
-TensorFlow\OperationDescription::__construct method
+TensorFlow\Graph::__construct method
 --FILE--
 <?php
 $graph = new TensorFlow\Graph();

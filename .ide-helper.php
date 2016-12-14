@@ -95,5 +95,58 @@ namespace TensorFlow
 
         // extern void TF_DeleteTensor(TF_Tensor*);
         public function __destruct();
+
+        // extern TF_DataType TF_TensorType(const TF_Tensor*);
+        public function getDtype(): int;
+    }
+
+    // typedef struct TF_SessionOptions TF_SessionOptions;
+    class SessionOptions
+    {
+        // extern TF_SessionOptions* TF_NewSessionOptions();
+        public function __construct();
+
+        // extern void TF_DeleteSessionOptions(TF_SessionOptions*);
+        public function __destruct();
+
+        /**
+         * extern void TF_SetTarget(TF_SessionOptions* options, const char* target);
+         * @param string $target "local", ip:port or host:port
+         */
+        public function setTarget(string $target);
+    }
+
+    // typedef struct TF_Graph TF_Graph;
+    class Graph
+    {
+        /**
+         * extern TF_Graph* TF_NewGraph();
+         */
+        public function __construct();
+
+        /**
+         * extern void TF_DeleteGraph(TF_Graph*);
+         */
+        public function __destruct();
+    }
+
+    // typedef struct TF_OperationDescription TF_OperationDescription;
+    class OperationDescription
+    {
+        /**
+         * extern TF_OperationDescription* TF_NewOperation(TF_Graph* graph,
+         *                                                 const char* op_type,
+         *                                                 const char* oper_name);
+         *
+         * @param Graph $graph
+         * @param string $operationType "Const"
+         * @param string $operationName
+         */
+        public function __construct(Graph $graph, string $operationType, string $operationName);
+
+        /**
+         * extern void TF_SetDevice(TF_OperationDescription* desc, const char* device);
+         */
+        public function setDevice(string $device);
     }
 }
