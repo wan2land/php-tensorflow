@@ -47,6 +47,9 @@ This API has been built on top of the [C API](https://www.tensorflow.org/code/te
 which is intended for building language bindings for TensorFlow functionality.
 However, this is far from complete. Contributions are welcome.
 
+ - do not edit `README.md` directly. edit `README.ok.md`. use
+   [is your README ok](https://github.com/wan2land/is-your-readme-ok) that is preprocessor of Markdown.
+
 ## Documents
 
 Current useable stuffs.
