@@ -6,9 +6,6 @@ zend_class_entry *ce_TF_Session = NULL;
 zend_object_handlers oh_TF_Session;
 
 // methods
-zend_object* tf_session_object_create(zend_class_entry* ce TSRMLS_DC);
-static void tf_session_object_free(zend_object *object TSRMLS_DC);
-
 static PHP_METHOD(TensorFlow_Session, __construct);
 static PHP_METHOD(TensorFlow_Session, __destruct);
 static PHP_METHOD(TensorFlow_Session, close);
@@ -31,13 +28,13 @@ static zend_function_entry tf_session_methods[] = {
     PHP_FE_END
 };
 
+CA_OBJECT_CREATE(session, t_tf_session, t_tf_session_object, oh_TF_Session)
+CA_OBJECT_FREE(session, t_tf_session, t_tf_session_object)
+
 void define_tf_session_class()
 {
     DEFINE_CLASS(Session, session, ce_TF_Session, oh_TF_Session)
 }
-
-CA_OBJECT_CREATE(session, t_tf_session, t_tf_session_object, oh_TF_Session)
-CA_OBJECT_FREE(session, t_tf_session, t_tf_session_object)
 
 // extern TF_Session* TF_NewSession(TF_Graph* graph, const TF_SessionOptions* opts,
 //                                  TF_Status* status);

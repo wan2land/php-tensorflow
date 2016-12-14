@@ -6,9 +6,6 @@ zend_class_entry *ce_TF_Status = NULL;
 zend_object_handlers oh_TF_Status;
 
 // methods
-zend_object* tf_status_object_create(zend_class_entry* ce TSRMLS_DC);
-static void tf_status_object_free(zend_object *object TSRMLS_DC);
-
 static PHP_METHOD(TensorFlow_Status, __construct);
 static PHP_METHOD(TensorFlow_Status, __destruct);
 static PHP_METHOD(TensorFlow_Status, setCode);
@@ -31,6 +28,9 @@ static zend_function_entry tf_status_methods[] = {
     PHP_ME(TensorFlow_Status, getMessage,  NULL,                      ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
+
+CA_OBJECT_CREATE(status, t_tf_status, t_tf_status_object, oh_TF_Status)
+CA_OBJECT_FREE(status, t_tf_status, t_tf_status_object)
 
 void define_tf_status_class()
 {
@@ -56,9 +56,6 @@ void define_tf_status_class()
     TF_STATUS_CLASS_CONST("CODE_DATA_LOSS", 15);
     TF_STATUS_CLASS_CONST("CODE_UNAUTHENTICATED", 16);
 }
-
-CA_OBJECT_CREATE(status, t_tf_status, t_tf_status_object, oh_TF_Status)
-CA_OBJECT_FREE(status, t_tf_status, t_tf_status_object)
 
 static PHP_METHOD(TensorFlow_Status, __construct)
 {

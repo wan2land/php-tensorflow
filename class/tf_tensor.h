@@ -14,6 +14,9 @@
 #include "tf_dtype.h"
 #include "tensorflow/c/c_api.h" // use this only
 
+#define TF_TENSOR_P_ZO(zo) ((t_tf_tensor_object*)((char *)(zo) - XtOffsetOf(t_tf_tensor_object, std)))
+#define TF_TENSOR_P_ZV(zv) TF_TENSOR_P_ZO(Z_OBJ_P(zv))
+
 typedef struct _t_tf_tensor {
     TF_Tensor* src;
     zend_string* str;
@@ -24,12 +27,6 @@ typedef struct _t_tf_tensor_object {
     zend_object std;
     t_tf_tensor* ptr;
 } t_tf_tensor_object;
-
-static PHP_METHOD(TensorFlow_Tensor, __construct);
-// static PHP_METHOD(TensorFlow_Tensor, getType);
-// static PHP_METHOD(TensorFlow_Tensor, getDims);
-// static PHP_METHOD(TensorFlow_Tensor, getByteSize);
-// static PHP_METHOD(TensorFlow_Tensor, getData);
 
 void define_tf_tensor_class();
 
