@@ -8,6 +8,7 @@ zend_object_handlers oh_TF_Tensor;
 // methods
 static PHP_METHOD(TensorFlow_Tensor, __construct);
 static PHP_METHOD(TensorFlow_Tensor, __destruct);
+static PHP_METHOD(TensorFlow_Tensor, getDtype);
 
 // argument info
 ZEND_BEGIN_ARG_INFO_EX(arginfo_tf_tensor___construct, 0, 0, 1)
@@ -20,6 +21,7 @@ ZEND_END_ARG_INFO()
 static zend_function_entry tf_tensor_methods[] = {
     PHP_ME(TensorFlow_Tensor, __construct, arginfo_tf_tensor___construct, ZEND_ACC_PUBLIC)
     PHP_ME(TensorFlow_Tensor, __destruct, NULL, ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Tensor, getDtype, NULL, ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 
@@ -113,4 +115,13 @@ static PHP_METHOD(TensorFlow_Tensor, __destruct)
     t_tf_tensor* node = intern->ptr;
 
     TF_DeleteTensor(node->src);
+}
+
+// extern TF_DataType TF_TensorType(const TF_Tensor*);
+static PHP_METHOD(TensorFlow_Tensor, getDtype)
+{
+    t_tf_tensor_object* intern = TF_TENSOR_P_ZV(getThis());
+    t_tf_tensor* node = intern->ptr;
+
+    RETURN_LONG(TF_TensorType(node->src));
 }
