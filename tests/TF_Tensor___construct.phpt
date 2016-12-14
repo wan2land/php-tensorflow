@@ -9,6 +9,8 @@ for ($i = 0; $i < 22; $i++) {
         echo $e->getMessage(), "/{$i}\n";
     }
 }
+$tensor = new TensorFlow\Tensor(TensorFlow\DTYPE_UINT16, []); // empty array safe
+$tensor = new TensorFlow\Tensor(TensorFlow\DTYPE_UINT16, NULL); // null safe
 
 ?>
 --EXPECT--

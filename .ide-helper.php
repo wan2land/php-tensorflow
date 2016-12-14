@@ -1,8 +1,10 @@
 <?php
 namespace TensorFlow
 {
+    // extern const char* TF_Version();
     const VERSION;
 
+    // typedef enum { ... } TF_DataType
     const DTYPE_FLOAT = 1;
     const DTYPE_DOUBLE = 2;
     const DTYPE_INT32 = 3;
@@ -25,17 +27,73 @@ namespace TensorFlow
     const DTYPE_HALF = 19;
     const DTYPE_RESOURCE = 20;
 
+    // typedef struct TF_Status TF_Status;
     class Status
     {
+        // typedef enum { ... } TF_Code;
+        const CODE_OK = 0;
+        const CODE_CANCELLED = 1;
+        const CODE_UNKNOWN = 2;
+        const CODE_INVALID_ARGUMENT = 3;
+        const CODE_DEADLINE_EXCEEDED = 4;
+        const CODE_NOT_FOUND = 5;
+        const CODE_ALREADY_EXISTS = 6;
+        const CODE_PERMISSION_DENIED = 7 ;
+        const CODE_RESOURCE_EXHAUSTED = 8;
+        const CODE_FAILED_PRECONDITION = 9;
+        const CODE_ABORTED = 10;
+        const CODE_OUT_OF_RANGE = 11;
+        const CODE_UNIMPLEMENTED = 12;
+        const CODE_INTERNAL = 13;
+        const CODE_UNAVAILABLE = 14;
+        const CODE_DATA_LOSS = 15;
+        const CODE_UNAUTHENTICATED = 16;
+
+        // extern TF_Status* TF_NewStatus();
+        public function __construct();
+
+        // extern void TF_DeleteStatus(TF_Status*);
+        public function __destruct();
+
+        // extern void TF_SetStatus(TF_Status* s, TF_Code code, const char* msg);
         public function setCode(int $code, string $message = ""): void;
+
+        // extern TF_Code TF_GetCode(const TF_Status* s);
         public function getCode(): int;
+
+        // extern const char* TF_Message(const TF_Status* s);
         public function getMessage(): string;
     }
 
+    /*
+     * typedef struct {
+     *   const void* data;
+     *   size_t length;
+     *   void (*data_deallocator)(void* data, size_t length);
+     * } TF_Buffer;
+     */
     class Buffer
     {
-        public function __construct(string $buffer);
+        // extern TF_Buffer* TF_NewBufferFromString(const void* proto, size_t proto_len);
+        // extern TF_Buffer* TF_NewBuffer();
+        public function __construct(string $buffer = null);
+
+        // extern void TF_DeleteBuffer(TF_Buffer*);
+        public function __destruct();
+
+        // extern TF_Buffer TF_GetBuffer(TF_Buffer* buffer);
+        // return TF_GetBuffer( ... ).data
         public function __toString(): string;
     }
 
+    // typedef struct TF_Tensor TF_Tensor;
+    class Tensor
+    {
+        // extern TF_Tensor* TF_AllocateTensor(TF_DataType, const int64_t* dims,
+        //                                     int num_dims, size_t len);
+        public function __construct(int $dtype, array $dims = null);
+
+        // extern void TF_DeleteTensor(TF_Tensor*);
+        public function __destruct();
+    }
 }

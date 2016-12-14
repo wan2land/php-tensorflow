@@ -1,20 +1,4 @@
 
-// // Return the type of a tensor element.
-// extern TF_DataType TF_TensorType(const TF_Tensor*);
-
-// // Return the number of dimensions that the tensor has.
-// extern int TF_NumDims(const TF_Tensor*);
-
-// // Return the length of the tensor in the "dim_index" dimension.
-// // REQUIRES: 0 <= dim_index < TF_NumDims(tensor)
-// extern int64_t TF_Dim(const TF_Tensor* tensor, int dim_index);
-
-// // Return the size of the underlying data in bytes.
-// extern size_t TF_TensorByteSize(const TF_Tensor*);
-
-// // Return a pointer to the underlying data buffer.
-// extern void* TF_TensorData(const TF_Tensor*);
-
 #include "tf_tensor.h"
 
 // predefine
@@ -23,6 +7,7 @@ zend_object_handlers oh_TF_Tensor;
 
 // methods
 static PHP_METHOD(TensorFlow_Tensor, __construct);
+static PHP_METHOD(TensorFlow_Tensor, __destruct);
 
 // argument info
 ZEND_BEGIN_ARG_INFO_EX(arginfo_tf_tensor___construct, 0, 0, 1)
@@ -34,6 +19,7 @@ ZEND_END_ARG_INFO()
 // methods
 static zend_function_entry tf_tensor_methods[] = {
     PHP_ME(TensorFlow_Tensor, __construct, arginfo_tf_tensor___construct, ZEND_ACC_PUBLIC)
+    PHP_ME(TensorFlow_Tensor, __destruct, NULL, ZEND_ACC_PUBLIC)
     PHP_FE_END
 };
 
@@ -45,9 +31,6 @@ void define_tf_tensor_class()
     DEFINE_CLASS(Tensor, tensor, ce_TF_Tensor, oh_TF_Tensor)
 }
 
-// extern TF_Tensor* TF_NewTensor(TF_DataType, const int64_t* dims, int num_dims,
-//     void* data, size_t len,
-//     void (*deallocator)(void* data, size_t len, void* arg), void* deallocator_arg);
 // extern TF_Tensor* TF_AllocateTensor(TF_DataType, const int64_t* dims, int num_dims, size_t len);
 static PHP_METHOD(TensorFlow_Tensor, __construct)
 {
@@ -121,4 +104,13 @@ static PHP_METHOD(TensorFlow_Tensor, __construct)
     intern = TF_TENSOR_P_ZV(getThis());
     php_tf_tensor = intern->ptr;
     php_tf_tensor->src = TF_AllocateTensor(tf_dtype, tf_dims, tf_num_dims, tf_len);
+}
+
+// extern void TF_DeleteTensor(TF_Tensor*);
+static PHP_METHOD(TensorFlow_Tensor, __destruct)
+{
+    t_tf_tensor_object* intern = TF_TENSOR_P_ZV(getThis());
+    t_tf_tensor* node = intern->ptr;
+
+    TF_DeleteTensor(node->src);
 }
