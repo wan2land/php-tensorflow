@@ -10,6 +10,13 @@
 #include <Zend/zend_interfaces.h>
 
 #include "tensorflow/c/c_api.h" // use this only
+#include "class_abstract.h"
+
+#define TF_BUFFER_P_ZO(zo) ((t_tf_buffer_object*)((char *)(zo) - XtOffsetOf(t_tf_buffer_object, std)))
+#define TF_BUFFER_P_ZV(zv) TF_BUFFER_P_ZO(Z_OBJ_P(zv))
+
+extern zend_class_entry *ce_TF_Buffer;
+extern zend_object_handlers oh_TF_Buffer;
 
 typedef struct _t_tf_buffer {
 	TF_Buffer* src;
@@ -21,9 +28,6 @@ typedef struct _t_tf_buffer_object {
 	zend_object std;
 	t_tf_buffer* ptr;
 } t_tf_buffer_object;
-
-static PHP_METHOD(TensorFlow_Buffer, __construct);
-static PHP_METHOD(TensorFlow_Buffer, __toString);
 
 void define_tf_buffer_class();
 
