@@ -6,9 +6,6 @@ zend_class_entry *ce_TF_Graph = NULL;
 zend_object_handlers oh_TF_Graph;
 
 // methods
-zend_object* tf_graph_object_create(zend_class_entry* ce TSRMLS_DC);
-static void tf_graph_object_free(zend_object *object TSRMLS_DC);
-
 static PHP_METHOD(TensorFlow_Graph, __construct);
 static PHP_METHOD(TensorFlow_Graph, __destruct);
 
@@ -25,13 +22,13 @@ static zend_function_entry tf_graph_methods[] = {
     PHP_FE_END
 };
 
+CA_OBJECT_CREATE(graph, t_tf_graph, t_tf_graph_object, oh_TF_Graph)
+CA_OBJECT_FREE(graph, t_tf_graph, t_tf_graph_object)
+
 void define_tf_graph_class()
 {
     DEFINE_CLASS(Graph, graph, ce_TF_Graph, oh_TF_Graph)
 }
-
-CA_OBJECT_CREATE(graph, t_tf_graph, t_tf_graph_object, oh_TF_Graph)
-CA_OBJECT_FREE(graph, t_tf_graph, t_tf_graph_object)
 
 // extern TF_Graph* TF_NewGraph();
 static PHP_METHOD(TensorFlow_Graph, __construct)

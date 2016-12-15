@@ -38,3 +38,8 @@ size_t tf_dtype_sizeof(TF_DataType type)
     }
     return 0; // unknown;
 }
+
+char valid_dtype(int64_t dtype)
+{
+    return dtype > 0 && dtype < 21;
+}

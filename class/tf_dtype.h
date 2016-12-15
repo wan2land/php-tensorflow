@@ -5,4 +5,6 @@
 
 size_t tf_dtype_sizeof(TF_DataType type);
 
+char valid_dtype(int64_t dtype);
+
 #endif  /* PHP_TENSORFLOW_DTYPE_H */

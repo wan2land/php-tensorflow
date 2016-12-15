@@ -205,6 +205,58 @@ namespace TensorFlow
          * extern void TF_SetDevice(TF_OperationDescription* desc, const char* device);
          */
         public function setDevice(string $device);
+
+        /**
+         * extern void TF_SetAttrInt(TF_OperationDescription* desc, const char* attr_name,
+         *                           int64_t value);
+         */
+        public function setAttrInt(string $name, int $value);
+
+        /**
+         * extern void TF_SetAttrIntList(TF_OperationDescription* desc,
+         *                               const char* attr_name, const int64_t* values,
+         *                               int num_values);
+         */
+        public function setAttrIntList(string $name, int[] $values);
+
+        /**
+         * extern void TF_SetAttrFloat(TF_OperationDescription* desc,
+         *                             const char* attr_name, float value);
+         */
+        public function setAttrFloat(string $name, float $value);
+
+        /**
+         * extern void TF_SetAttrFloatList(TF_OperationDescription* desc,
+         *                                 const char* attr_name, const float* values,
+         *                                 int num_values);
+         */
+        public function setAttrFloatList(string $name, float[] $values);
+
+        /**
+         * extern void TF_SetAttrBool(TF_OperationDescription* desc, const char* attr_name,
+         *                            unsigned char value);
+         */
+        public function setAttrBool(string $name, bool $value);
+
+        /**
+         * extern void TF_SetAttrBoolList(TF_OperationDescription* desc,
+         *                                const char* attr_name,
+         *                                const unsigned char* values, int num_values);
+         */
+        public function setAttrBoolList(string $name, bool[] $values);
+
+        /**
+         * extern void TF_SetAttrType(TF_OperationDescription* desc, const char* attr_name,
+         *                            TF_DataType value);
+         */
+        public function setAttrType(string $name, int $dtype);
+
+        /**
+         * extern void TF_SetAttrTypeList(TF_OperationDescription* desc,
+         *                                const char* attr_name, const TF_DataType* values,
+         *                                int num_values);
+         */
+        public function setAttrTypeList(string $name, int[] $dtypes);
     }
 }
 ```

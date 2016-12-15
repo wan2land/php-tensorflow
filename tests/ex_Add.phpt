@@ -1,5 +1,5 @@
 --TEST--
-TensorFlow\OperationDescription::__construct method
+Example Add
 --FILE--
 <?php
 

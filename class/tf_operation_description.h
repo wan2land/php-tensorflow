@@ -8,9 +8,11 @@
 #include <Zend/zend_extensions.h>
 #include <Zend/zend_exceptions.h>
 #include <Zend/zend_interfaces.h>
+#include <ext/spl/spl_exceptions.h>
 
 #include "tensorflow/c/c_api.h" // use this only
 #include "class_abstract.h"
+#include "tf_dtype.h"
 #include "tf_graph.h"
 
 #define TF_OPERATION_DESCRIPTION_P_ZO(zo) (t_tf_operation_description_object*)((char *)(zo) - XtOffsetOf(t_tf_operation_description_object, std))

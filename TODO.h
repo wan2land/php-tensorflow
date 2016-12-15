@@ -1,11 +1,4 @@
 
-#ifndef TENSORFLOW_C_C_API_H_
-#define TENSORFLOW_C_C_API_H_
-
-#include <stddef.h>
-#include <stdint.h>
-
-
 // Return a new tensor that holds the bytes data[0,len-1].
 //
 // The data will be deallocated by a subsequent call to TF_DeleteTensor via:
@@ -189,26 +182,6 @@ extern void TF_SetAttrStringList(TF_OperationDescription* desc,
                                  const char* attr_name,
                                  const void* const* values,
                                  const size_t* lengths, int num_values);
-extern void TF_SetAttrInt(TF_OperationDescription* desc, const char* attr_name,
-                          int64_t value);
-extern void TF_SetAttrIntList(TF_OperationDescription* desc,
-                              const char* attr_name, const int64_t* values,
-                              int num_values);
-extern void TF_SetAttrFloat(TF_OperationDescription* desc,
-                            const char* attr_name, float value);
-extern void TF_SetAttrFloatList(TF_OperationDescription* desc,
-                                const char* attr_name, const float* values,
-                                int num_values);
-extern void TF_SetAttrBool(TF_OperationDescription* desc, const char* attr_name,
-                           unsigned char value);
-extern void TF_SetAttrBoolList(TF_OperationDescription* desc,
-                               const char* attr_name,
-                               const unsigned char* values, int num_values);
-extern void TF_SetAttrType(TF_OperationDescription* desc, const char* attr_name,
-                           TF_DataType value);
-extern void TF_SetAttrTypeList(TF_OperationDescription* desc,
-                               const char* attr_name, const TF_DataType* values,
-                               int num_values);
 
 // Set `num_dims` to -1 to represent "unknown rank".  Otherwise,
 // `dims` points to an array of length `num_dims`.  `dims[i]` must be
@@ -757,9 +730,3 @@ extern void TF_DeleteLibraryHandle(TF_Library* lib_handle);
 // The data in the buffer will be the serialized OpList proto for ops registered
 // in this address space.
 extern TF_Buffer* TF_GetAllOpList();
-
-#ifdef __cplusplus
-} /* end extern "C" */
-#endif
-
-#endif  // TENSORFLOW_C_C_API_H_

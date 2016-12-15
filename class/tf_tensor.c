@@ -47,7 +47,7 @@ static PHP_METHOD(TensorFlow_Tensor, __construct)
         Z_PARAM_ARRAY_EX(data, 1, 0)
     ZEND_PARSE_PARAMETERS_END();
 
-    if (dtype < 1 || dtype > 20) {
+    if (!valid_dtype(dtype)) {
         zend_throw_exception(spl_ce_InvalidArgumentException, "dtype must be from 1 to 20", 0);
         return;
     }
