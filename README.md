@@ -1,6 +1,6 @@
 # TensorFlow PHP Extension
 
-> PhP Tensorflow is no longer planned.
+> PHP Tensorflow is no longer planned.
 > The reason you found this project is to do Tensorflow on the web, there is a better way like tensorflow.js, so try it.
 > https://js.tensorflow.org/
 
